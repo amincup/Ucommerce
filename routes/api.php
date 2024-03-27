@@ -6,6 +6,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SubcategoryController;
@@ -29,7 +30,9 @@ Route::Group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('admin', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::Group([
@@ -51,6 +54,7 @@ Route::Group([
     Route::get('order/dikirim', [OrderController::class, 'dikirim']);
     Route::get('order/diterima', [OrderController::class, 'diterima']);
     Route::get('order/selesai', [OrderController::class, 'selesai']);
+    Route::get('reports', [ReportController::class, 'index']);
 
     Route::post('order/ubah_status/{order}', [OrderController::class, 'ubah_status']);
 });

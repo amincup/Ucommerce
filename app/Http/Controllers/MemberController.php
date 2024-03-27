@@ -46,7 +46,8 @@ class MemberController extends Controller
             'detail_alamat' => 'required',
             'no_hp' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6|same:konfirmasi_password',
+            'konfirmasi_password' => 'required|min:6|same:password',
         ]);
         //akan return error 422
         if ($validator->fails()) {
@@ -57,7 +58,8 @@ class MemberController extends Controller
         }
 
         $input = $request->all();
-
+        $input['password'] = bcrypt($request->password);
+        unset($input['konfirmasi_password']);
         $member = Member::create($input);
 
         return response()->json([
@@ -70,7 +72,9 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        //
+        return response()->json([
+            'data' => $member
+        ]);
     }
 
     /**
